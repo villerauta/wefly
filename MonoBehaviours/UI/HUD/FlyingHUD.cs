@@ -9,13 +9,11 @@ public class FlyingHUD : MonoBehaviour
     public WeFly.Airplane_Characteristics characteristics;
     public Inventory inventory;
     public EngineCutoff engineCutoff;
-
     public FlyingDial speedDial;
     public FlyingDial fuelDial;
     public FlyingDial altitudeDial;
     public FlightAttitudeDial attitudeDial;
     public FlightStateText stateText;
-
     CanvasGroup canvasGroup;
     public float transitionTime = 0.5f;
 
@@ -25,6 +23,11 @@ public class FlyingHUD : MonoBehaviour
         stateText.SetText("Engines Off");
         canvasGroup = GetComponent<CanvasGroup>();
         engineCutoff = GlobalReferences.references.Engines;
+
+        engineCutoff.onEngineCutoff.AddListener(OnEngineStop);
+        engineCutoff.onEngineStart.AddListener(OnEngineStart);
+        engineCutoff.onEngineIgniteStart.AddListener(OnIgnitionStart);
+        engineCutoff.onEngineIgniteStop.AddListener(OnIgnitionStop);
 
         if (engineCutoff.engineIsOn)
         {
@@ -129,7 +132,7 @@ public class FlyingHUD : MonoBehaviour
 
     void UpdateFuel()
     {
-        fuelDial.SetValue(inventory.maxFuel/inventory.fuelAmount);
+        fuelDial.SetValue(inventory.fuelAmount/inventory.maxFuel);
     }
 
     void UpdateAttitude()
