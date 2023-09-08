@@ -19,7 +19,7 @@ public class AirportAreaController : MonoBehaviour
             AirfieldArea airfield = area.transform.GetComponent<AirfieldArea>();
             if (airfield)
             {
-                if (airfield != currentAirfield)
+                if (!currentAirfield || airfield != currentAirfield)
                 {
                     currentAirfield = airfield;
                     GlobalReferences.references.airportManager.SetAirportArea(airfield);
