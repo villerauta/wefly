@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AirportAreaController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    private AirfieldArea currentAirfield = null;
     void Start()
     {
         SettingsAreaDetector areaDetector = GetComponent<SettingsAreaDetector>();
@@ -18,7 +19,12 @@ public class AirportAreaController : MonoBehaviour
             AirfieldArea airfield = area.transform.GetComponent<AirfieldArea>();
             if (airfield)
             {
-                GlobalReferences.references.airportManager.SetAirportArea(airfield);
+                if (airfield != currentAirfield)
+                {
+                    currentAirfield = airfield;
+                    GlobalReferences.references.airportManager.SetAirportArea(airfield);
+                }
+                
             }
         }
     }

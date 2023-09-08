@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public class MusicManager : MonoBehaviour
@@ -11,15 +12,12 @@ public class MusicManager : MonoBehaviour
     private AudioClip mCurrentClip;
     [SerializeField]
     private int mCurrentPriority = 0;
-    public void SetMusic(AudioClip clip, int priority = 1)
+    public void SetMusic(AudioClip clip)
     {
         if (clip)
         {
-            if (priority > mCurrentPriority)
-            {
-                mCurrentPriority = priority;
-                ChangeMusic(clip);
-            }
+            if (clip != mCurrentClip) ChangeMusic(clip);
+            
         } 
         else 
         {
@@ -37,6 +35,7 @@ public class MusicManager : MonoBehaviour
     private void ResetMusic()
     {
         MusicSource.clip = null;
+        mCurrentClip = null;
         MusicSource.Stop();
     }
 
